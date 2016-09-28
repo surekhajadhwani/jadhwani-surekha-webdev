@@ -3,5 +3,17 @@ input.form-control {
 }
 
 body {
-    padding-top: 36px;
+    padding-top: 65px;
+}
+
+.navbar-default {
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.navbar .nav.pull-right {
+    margin-right: 15px;
 }
