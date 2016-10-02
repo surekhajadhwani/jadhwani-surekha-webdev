@@ -4,7 +4,6 @@ input.form-control {
 
 body {
     padding-top: 65px;
-    overflow: hidden;
 }
 
 .list-group-item {
@@ -23,7 +22,7 @@ body {
     color: #fff;
 }
 
-.glyphicon-cog {
+.glyphicon-cog, .glyphicon-menu-hamburger {
     color: #337ab7;
 }
 
@@ -35,3 +34,22 @@ body {
     margin-left: 10px;
 }
 
+.v-divider {
+    margin-top: -50px;
+    border-right: 1px solid lightgray;
+    height: 100vh;
+    -webkit-border-vertical-spacing: 20px;
+}
+
+.relative-position {
+    position: relative;
+}
+
+.list-element-menu {
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+    background-color: white;
+    position: absolute;
+
+}

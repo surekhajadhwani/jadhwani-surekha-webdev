@@ -5,27 +5,27 @@
     <link href="css/style.css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New Website</title>
+    <title>Edit Page</title>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid row">
         <div class="col-xs-4 hidden-xs">
-        <div class="navbar-header">
-            <a href="#" class="navbar-text navbar-link">
+            <div class="navbar-header">
+                <a href="#" class="navbar-text navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
-            </a>
-            <a class="navbar-brand" href="#">
-                Websites
-            </a>
-            <p class="navbar-text pull-right">
-                <a href="website-new.html" class="navbar-link">
+                </a>
+                <a class="navbar-brand" href="#">
+                    Pages
+                </a>
+                <p class="navbar-text pull-right">
+                    <a href="website-new.html" class="navbar-link">
                         <span class="glyphicon glyphicon-plus">
                         </span>
-                </a>
-            </p>
-        </div>
+                    </a>
+                </p>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-8">
             <div class="navbar-header">
@@ -34,7 +34,7 @@
                     </span>
                 </a>
                 <a class="navbar-brand" href="#">
-                    New Website
+                    Edit Page
                 </a>
                 <p class="navbar-text pull-right">
                     <a href="website-list.html" class="navbar-link">
@@ -51,20 +51,39 @@
     <div class="row container-fluid">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="page-list.html">Address Book App</a>
-                <a href="website-edit.html" class="pull-right"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="page-list.html">Blog Post</a>
+                <a href="website-edit.html" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
+                </a>
             </li>
             <li class="list-group-item">
-                <a href="page-list.html">Blogger</a>
-                <a href="website-edit.html" class="pull-right"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="page-list.html">Blogs</a>
+                <a href="website-edit.html" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
+                </a>
             </li>
             <li class="list-group-item">
-                <a href="page-list.html">Blogging App</a>
-                <a href="website-edit.html" class="pull-right"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="page-list.html">Home</a>
+                <a href="website-edit.html" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
+                </a>
             </li>
             <li class="list-group-item">
-                <a href="page-list.html">Script Testing App</a>
-                <a href="website-edit.html" class="pull-right"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="page-list.html">About</a>
+                <a href="website-edit.html" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="page-list.html">Contact Us</a>
+                <a href="website-edit.html" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
+                </a>
             </li>
         </ul>
     </div>
@@ -74,12 +93,13 @@
     <form>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name"/>
+            <input type="text" class="form-control" id="name" value="Blog Post"/>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" rows="5" id="description" placeholder="Description"></textarea>
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Page Title"/>
         </div>
+        <a class="btn btn-danger btn-block" href="page-list.html">Delete</a>
     </form>
 </div>
 
