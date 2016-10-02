@@ -4,6 +4,11 @@ input.form-control {
 
 body {
     padding-top: 65px;
+    overflow: hidden;
+}
+
+.list-group-item {
+    border: none;
 }
 
 .navbar-default {
@@ -14,6 +19,19 @@ body {
     color: #fff;
 }
 
-.navbar .nav.pull-right {
-    margin-right: 15px;
+.glyphicon {
+    color: #fff;
 }
+
+.glyphicon-cog {
+    color: #337ab7;
+}
+
+.navbar-header {
+    width:100%;
+}
+
+.pull-left {
+    margin-left: 10px;
+}
+
