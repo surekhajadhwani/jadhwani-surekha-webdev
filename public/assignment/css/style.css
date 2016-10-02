@@ -53,3 +53,7 @@ body {
     background-color: white;
     position: absolute;
 }
+
+a:hover {
+    text-decoration: none;
+}
