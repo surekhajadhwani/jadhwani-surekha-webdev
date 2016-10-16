@@ -6,13 +6,13 @@
     function UserService() {
         var users = [
             { "_id": "123", "username": "alice",    "password": "alice",    "firstName": "Alice",
-                "lastName": "Wonder" },
+                "lastName": "Wonder",     "email": "alice@gmail.com" },
             { "_id": "234", "username": "bob",      "password": "bob",      "firstName": "Bob",
-                "lastName": "Marley" },
+                "lastName": "Marley",     "email": "bob@gmail.com" },
             { "_id": "345", "username": "charly",   "password": "charly",   "firstName": "Charly",
-                "lastName": "Garcia" },
+                "lastName": "Garcia",     "email": "charly@gmail.com" },
             { "_id": "456", "username": "jannunzi", "password": "jannunzi", "firstName": "Jose",
-                "lastName": "Annunziato" }
+                "lastName": "Annunziato", "email": "jannunzi@gmail.com" }
         ];
 
         var api = {
@@ -27,7 +27,14 @@
         return api;
 
         function createUser(user) {
+            var lastId = users[users.length - 1]._id;
+            var id = lastId + 1;
 
+            var newUser = { "_id": id, "username": user.username, "password": user.password,
+                            "firstName": user.username, "lastName": user.username};
+
+            users.push(newUser);
+            return id;
         }
 
         function findUserById(userId) {
@@ -62,10 +69,21 @@
         }
 
         function updateUser(userId, user) {
-
+            for (var u in users) {
+                currUser = users[u];
+                if (currUser._id === userId) {
+                    users[u] = user;
+                }
+            }
         }
 
         function deleteUser(userId) {
+            for (var u in users) {
+                currUser = users[u];
+                if (currUser._id === userId) {
+                    delete users[u];
+                }
+            }
 
         }
     }

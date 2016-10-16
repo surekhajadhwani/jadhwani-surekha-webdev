@@ -23,15 +23,28 @@
 
     function RegisterController($location, UserService) {
         var vm = this;
+        vm.register = register;
+
+        function register(user) {
+            if (user === undefined || user.username === undefined || user.password === undefined) {
+                vm.error = "Invalid Username/Password!";
+            } else {
+                if (user.password === user.verifyPassword) {
+                    var userId = UserService.createUser(user);
+                    var user = UserService.findUserById(userId);
+                    $location.url("/user/" + user._id);
+                } else {
+                    vm.error = "Passwords do not match!"
+                }
+            }
+        }
     }
 
     function ProfileController($routeParams, UserService) {
         var vm = this;
 
-        var userId = parseInt($routeParams['uid']);
-
+        var userId = $routeParams['uid'];
         var user = UserService.findUserById(userId);
-
         if(user != null) {
             vm.user = user;
         }
