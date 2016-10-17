@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="../user/profile.view.client.html" class="navbar-text pull-left navbar-link">
+            <a href="#/user/{{model.userId}}" class="navbar-text pull-left navbar-link">
                 <span class="glyphicon glyphicon-chevron-left">
                 </span>
             </a>
@@ -9,7 +9,7 @@
                 Websites
             </a>
             <p class="navbar-text pull-right">
-                <a href="website-new.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/new" class="navbar-link">
                     <span class="glyphicon glyphicon-plus">
                     </span>
                 </a>
@@ -20,30 +20,11 @@
 
 <div class="container">
     <ul class="list-group">
-        <li class="list-group-item">
-            <a href="../page/page-list.view.client.html">Address Book App</a>
-            <a href="website-edit.view.client.html" class="pull-right">
-                <span class="glyphicon glyphicon-cog">
-                </span>
+        <li ng-repeat="website in model.websites" class="list-group-item">
+            <a href="#/user/{{model.userId}}/website/{{website._id}}/page">
+                {{website.name}}
             </a>
-        </li>
-        <li class="list-group-item">
-            <a href="../page/page-list.view.client.html">Blogger</a>
-            <a href="website-edit.view.client.html" class="pull-right">
-                <span class="glyphicon glyphicon-cog">
-                </span>
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="../page/page-list.view.client.html">Blogging App</a>
-            <a href="website-edit.view.client.html" class="pull-right">
-                <span class="glyphicon glyphicon-cog">
-                </span>
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="../page/page-list.view.client.html">Script Testing App</a>
-            <a href="website-edit.view.client.html" class="pull-right">
+            <a href="#/user/{{model.userId}}/website/{{website._id}}" class="pull-right">
                 <span class="glyphicon glyphicon-cog">
                 </span>
             </a>
@@ -55,7 +36,7 @@
     <div class="container">
         <div class="navbar-footer">
             <p class="navbar-text pull-right">
-                <a href="../user/profile.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}" class="navbar-link">
                     <span class="glyphicon glyphicon-user">
                     </span>
                 </a>

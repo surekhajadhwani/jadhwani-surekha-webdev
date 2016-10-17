@@ -11,6 +11,11 @@
 
         function login(username, password) {
 
+            if (!(username && password)) {
+                vm.error = "Please enter username and password.";
+                return;
+            }
+
             var user = UserService.findUserByCredentials(username, password);
 
             if(user === null) {

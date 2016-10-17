@@ -2,7 +2,7 @@
     <div class="container-fluid row">
         <div class="col-xs-4 hidden-xs">
             <div class="navbar-header">
-                <a href="website-list.view.client.html" class="navbar-text navbar-link">
+                <a href="#/user/{{model.userId}}/website" class="navbar-text navbar-link">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
@@ -10,7 +10,7 @@
                     Websites
                 </a>
                 <p class="navbar-text pull-right">
-                    <a href="website-new.view.client.html" class="navbar-link">
+                    <a href="#/user/{{model.userId}}/website/new" class="navbar-link">
                         <span class="glyphicon glyphicon-plus">
                         </span>
                     </a>
@@ -19,7 +19,7 @@
         </div>
         <div class="col-xs-12 col-sm-8">
             <div class="navbar-header">
-                <a href="website-list.view.client.html" class="navbar-text pull-left navbar-link visible-xs">
+                <a href="#/user/{{model.userId}}/website" class="navbar-text pull-left navbar-link visible-xs">
                     <span class="glyphicon glyphicon-chevron-left">
                     </span>
                 </a>
@@ -27,7 +27,7 @@
                     Edit Website
                 </a>
                 <p class="navbar-text pull-right">
-                    <a href="website-list.view.client.html" class="navbar-link">
+                    <a ng-click="model.updateWebsite(model.website)" class="navbar-link">
                         <span class="glyphicon glyphicon-ok">
                         </span>
                     </a>
@@ -40,32 +40,13 @@
 <div class="col-xs-4 hidden-xs v-divider">
     <div class="row container-fluid">
         <ul class="list-group">
-            <li class="list-group-item">
-                <a href="../page/page-list.view.client.html">Address Book App</a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog">
-                    </span>
+            <li ng-repeat="website in model.websites" class="list-group-item">
+                <a href="#/user/{{model.userId}}/website/{{website._id}}/page">
+                    {{website.name}}
                 </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../page/page-list.view.client.html">Blogger</a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog">
-                    </span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../page/page-list.view.client.html">Blogging App</a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog">
-                    </span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../page/page-list.view.client.html">Script Testing App</a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog">
-                    </span>
+                <a href="#/user/{{model.userId}}/website/{{website._id}}" class="pull-right">
+                <span class="glyphicon glyphicon-cog">
+                </span>
                 </a>
             </li>
         </ul>
@@ -76,13 +57,13 @@
     <form>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" value="Blogger">
+            <input ng-model="model.website.name" type="text" class="form-control" id="name" value="Blogger">
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" rows="5" id="description">Blogger is a blog-publishing service that allows multi-user blogs with time-stamped entries. It was developed by Pyra Labs, which was bought by Google in 2003. Generally, the blogs are hosted by Google at a subdomain of blogspot.com. Blogs can also be hosted in the registered custom domain of the blogger (like www.example.com).[4] A user can have up to 100 blogs per account</textarea>
+            <textarea ng-model="model.website.description" class="form-control" rows="5" id="description">Blogger is a blog-publishing service that allows multi-user blogs with time-stamped entries. It was developed by Pyra Labs, which was bought by Google in 2003. Generally, the blogs are hosted by Google at a subdomain of blogspot.com. Blogs can also be hosted in the registered custom domain of the blogger (like www.example.com).[4] A user can have up to 100 blogs per account</textarea>
         </div>
-        <a class="btn btn-danger btn-block" href="website-list.view.client.html">Delete</a>
+        <a class="btn btn-danger btn-block" ng-click="model.deleteWebsite()">Delete</a>
     </form>
 </div>
 
@@ -90,7 +71,7 @@
     <div class="container">
         <div class="navbar-footer">
             <p class="navbar-text pull-right">
-                <a href="../user/profile.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}" class="navbar-link">
                     <span class="glyphicon glyphicon-user">
                     </span>
                 </a>
