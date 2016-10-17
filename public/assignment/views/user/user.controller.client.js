@@ -26,13 +26,12 @@
         vm.register = register;
 
         function register(user) {
-            if (user === undefined || user.username === undefined || user.password === undefined) {
+            if (!(user && user.username && user.password)) {
                 vm.error = "Invalid Username/Password!";
             } else {
                 if (user.password === user.verifyPassword) {
                     var userId = UserService.createUser(user);
-                    var user = UserService.findUserById(userId);
-                    $location.url("/user/" + user._id);
+                    $location.url("/user/" + userId);
                 } else {
                     vm.error = "Passwords do not match!"
                 }
@@ -43,7 +42,7 @@
     function ProfileController($routeParams, UserService) {
         var vm = this;
 
-        var userId = $routeParams['uid'];
+        var userId = parseInt($routeParams['uid']);
         var user = UserService.findUserById(userId);
         if(user != null) {
             vm.user = user;

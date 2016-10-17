@@ -5,13 +5,13 @@
 
     function UserService() {
         var users = [
-            { "_id": "123", "username": "alice",    "password": "alice",    "firstName": "Alice",
+            { "_id": 123, "username": "alice",    "password": "alice",    "firstName": "Alice",
                 "lastName": "Wonder",     "email": "alice@gmail.com" },
-            { "_id": "234", "username": "bob",      "password": "bob",      "firstName": "Bob",
+            { "_id": 234, "username": "bob",      "password": "bob",      "firstName": "Bob",
                 "lastName": "Marley",     "email": "bob@gmail.com" },
-            { "_id": "345", "username": "charly",   "password": "charly",   "firstName": "Charly",
+            { "_id": 345, "username": "charly",   "password": "charly",   "firstName": "Charly",
                 "lastName": "Garcia",     "email": "charly@gmail.com" },
-            { "_id": "456", "username": "jannunzi", "password": "jannunzi", "firstName": "Jose",
+            { "_id": 456, "username": "jannunzi", "password": "jannunzi", "firstName": "Jose",
                 "lastName": "Annunziato", "email": "jannunzi@gmail.com" }
         ];
 
@@ -27,11 +27,12 @@
         return api;
 
         function createUser(user) {
-            var lastId = users[users.length - 1]._id;
+            var lastId = parseInt(users[users.length - 1]._id);
             var id = lastId + 1;
 
             var newUser = { "_id": id, "username": user.username, "password": user.password,
-                            "firstName": user.username, "lastName": user.username};
+                            "firstName": user.username, "lastName": user.username,
+                            "email": user.username + "@gmail.com"};
 
             users.push(newUser);
             return id;
