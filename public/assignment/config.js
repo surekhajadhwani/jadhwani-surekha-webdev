@@ -36,32 +36,32 @@
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page", {
-                templateUrl: "views/pages/page-list.view.client.html",
+                templateUrl: "views/page/page-list.view.client.html",
                 controller: "PageListController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page/new", {
-                templateUrl: "views/pages/pages-new.view.client.html",
+                templateUrl: "views/page/page-new.view.client.html",
                 controller: "NewPageController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page/:pid", {
-                templateUrl: "views/pages/page-edit.view.client.html",
+                templateUrl: "views/page/page-edit.view.client.html",
                 controller: "EditPageController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page/:pid/widget", {
-                templateUrl: "views/widgets/widget-list.view.client.html",
+                templateUrl: "views/widget/widget-list.view.client.html",
                 controller: "WidgetListController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page/:pid/widget/new", {
-                templateUrl: "views/widgets/widget-chooser.view.client.html",
+                templateUrl: "views/widget/widget-chooser.view.client.html",
                 controller: "NewWidgetController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website/:wid/page/:pid/widget/:wgid", {
-                templateUrl: "views/widgets/widget-edit.view.client.html",
+                templateUrl: "views/widget/widget-edit.view.client.html",
                 controller: "EditWidgetController",
                 controllerAs: "model"
             })

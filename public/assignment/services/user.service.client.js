@@ -30,19 +30,19 @@
             var lastId = parseInt(users[users.length - 1]._id);
             var id = lastId + 1;
 
-            var newUser = { "_id": id, "username": user.username, "password": user.password,
-                            "firstName": user.username, "lastName": user.username,
-                            "email": user.username + "@gmail.com"};
+            user._id = id;
+            user.firstName = user.username;
+            user.lastName = user.username;
+            user.email = user.username + "@gmail.com";
 
-            users.push(newUser);
+            users.push(user);
             return id;
         }
 
         function findUserById(userId) {
             for (var u in users) {
-                user = users[u];
-                if (user._id === userId) {
-                    return user;
+                if (users[u]._id === userId) {
+                    return users[u];
                 }
             }
             return null;
@@ -50,8 +50,7 @@
 
         function findUserByUsername(username) {
             for (var u in users) {
-                user = users[u];
-                if (user.username === username) {
+                if (users[u].username === username) {
                     return user;
                 }
             }
@@ -60,10 +59,9 @@
 
         function findUserByCredentials(username, password) {
             for (var u in users) {
-                user = users[u];
-                if (user.username === username &&
-                    user.password === password) {
-                    return user;
+                if (users[u].username === username &&
+                    users[u].password === password) {
+                    return users[u];
                 }
             }
             return null;
@@ -71,18 +69,18 @@
 
         function updateUser(userId, user) {
             for (var u in users) {
-                currUser = users[u];
-                if (currUser._id === userId) {
+                if (users[u]._id === userId) {
                     users[u] = user;
+                    break;
                 }
             }
         }
 
         function deleteUser(userId) {
             for (var u in users) {
-                currUser = users[u];
-                if (currUser._id === userId) {
-                    delete users[u];
+                if (users[u]._id === userId) {
+                    users.splice(parseInt(u), 1);
+                    break;
                 }
             }
         }

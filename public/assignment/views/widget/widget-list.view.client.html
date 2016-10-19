@@ -1,15 +1,17 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="../page/page-list.view.client.html" class="navbar-text pull-left navbar-link">
+            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page"
+               class="navbar-text pull-left navbar-link">
                 <span class="glyphicon glyphicon-chevron-left">
                 </span>
             </a>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand">
                 Widgets
             </a>
             <p class="navbar-text pull-right">
-                <a href="widget-chooser.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new"
+                   class="navbar-link">
                     <span class="glyphicon glyphicon-plus">
                     </span>
                 </a>
@@ -18,7 +20,7 @@
     </div>
 </nav>
 
-<div class="container">
+<!--<div class="container">
     <div class="list-group">
         <div class="relative-position">
             <h1>GIZMODO</h1>
@@ -74,21 +76,50 @@
             </div>
         </div>
     </div>
+</div>-->
+
+<div class="container">
+    <div ng-switch="widget.widgetType"
+         ng-repeat="widget in model.widgets">
+        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}"
+           class="pull-right">
+            <span class="glyphicon glyphicon-cog"></span>
+        </a>
+        <div ng-switch="widget.size" ng-switch-when="HEADER">
+            <h1 ng-switch-when="1">{{widget.text}}</h1>
+            <h2 ng-switch-when="2">{{widget.text}}</h2>
+            <h3 ng-switch-when="3">{{widget.text}}</h3>
+            <h4 ng-switch-when="4">{{widget.text}}</h4>
+            <h5 ng-switch-when="5">{{widget.text}}</h5>
+            <h6 ng-switch-when="6">{{widget.text}}</h6>
+        </div>
+        <div ng-switch-when="YOUTUBE">
+            <iframe width="560" height="315"
+                    ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"
+                    frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div ng-switch-when="IMAGE">
+            image
+        </div>
+        <div ng-switch-when="HTML" ng-bind-html="model.checkSafeHtml(widget.text)">
+        </div>
+    </div>
 </div>
+
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
         <div class="navbar-footer">
-            <a href="#" class="navbar-text pull-left navbar-link">
+            <a class="navbar-text pull-left navbar-link">
                 <span class="glyphicon glyphicon-play">
                 </span>
             </a>
-            <a href="#" class="navbar-text pull-left navbar-link">
+            <a class="navbar-text pull-left navbar-link">
                 <span class="glyphicon glyphicon-eye-open">
                 </span>
             </a>
             <p class="navbar-text pull-right">
-                <a href="../user/profile.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}" class="navbar-link">
                     <span class="glyphicon glyphicon-user">
                     </span>
                 </a>
