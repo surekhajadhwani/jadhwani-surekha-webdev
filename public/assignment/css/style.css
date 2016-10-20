@@ -5,6 +5,14 @@ input.form-control {
 body {
     padding-top: 65px;
     padding-bottom: 65px;
+    overflow: hidden;
+}
+
+.scroll-y {
+    overflow-y: scroll;
+    position: relative;
+    height: -moz-calc(100vh - 130px); /* Firefox */
+    height: -webkit-calc(100vh - 130px); /* Chrome, Safari */
 }
 
 .list-group-item {
