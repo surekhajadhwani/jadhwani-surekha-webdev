@@ -39,12 +39,10 @@
         vm.userId = parseInt($routeParams['uid']);
         vm.websiteId = parseInt($routeParams['wid']);
         vm.pageId = parseInt($routeParams['pid']);
-        // vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
 
         function addWidget(widgetType){
-            WidgetService.create(vm.pageId, {widgetType : widgetType});
-            vm.widgetId = PageService.createPage(vm.websiteId,page);
-            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page" + vm.pageId + "/widget" + vm.widgetId);
+            vm.widgetId = WidgetService.createWidget(vm.pageId, {"widgetType" : widgetType});
+            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget/" + vm.widgetId);
         }
     }
 
@@ -64,7 +62,6 @@
         
         function updateWidget(widget) {
             WidgetService.updateWidget(vm.widgetId, widget);
-            //$location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
             $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
         }
 

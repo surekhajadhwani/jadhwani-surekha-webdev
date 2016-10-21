@@ -10,7 +10,10 @@
         vm.userId = parseInt($routeParams['uid']);
         vm.websiteId = parseInt($routeParams['wid']);
 
-        vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+        function init() {
+            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+        }
+        init();
     }
 
     function NewPageController($routeParams, $location, PageService) {
@@ -19,7 +22,11 @@
 
         vm.userId = parseInt($routeParams['uid']);
         vm.websiteId = parseInt($routeParams['wid']);
-        vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+
+        function init() {
+            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+        }
+        init();
 
         function addPage(page){
             PageService.createPage(vm.websiteId,page);
@@ -35,8 +42,12 @@
         vm.userId = parseInt($routeParams['uid']);
         vm.websiteId = parseInt($routeParams['wid']);
         vm.pageId = parseInt($routeParams['pid']);
-        vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
-        vm.page = PageService.findPageById(vm.pageId);
+
+        function init() {
+            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+            vm.page = PageService.findPageById(vm.pageId);
+        }
+        init();
 
         function deletePage(){
             PageService.deletePage(vm.pageId);

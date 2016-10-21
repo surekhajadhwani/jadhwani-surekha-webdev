@@ -1,7 +1,8 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="widget-list.view.client.html" class="navbar-text pull-left navbar-link">
+            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget"
+               class="navbar-text pull-left navbar-link">
                 <span class="glyphicon glyphicon-chevron-left">
                 </span>
             </a>
@@ -15,34 +16,34 @@
 <div class="container">
     <ul class="list-group">
         <li class="list-group-item">
-            <a href="widget-header.view.client.html">Header</a>
+            <a ng-click="model.addWidget('HEADER')">Header</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Label</a>
+            <a>Label</a>
         </li>
         <li class="list-group-item">
-            <a href="#">HTML</a>
+            <a ng-click="model.addWidget('HTML')">HTML</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Text Input</a>
+            <a>Text Input</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Link</a>
+            <a>Link</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Button</a>
+            <a>Button</a>
         </li>
         <li class="list-group-item">
-            <a href="widget-image.view.client.html">Image</a>
+            <a ng-click="model.addWidget('IMAGE')">Image</a>
         </li>
         <li class="list-group-item">
-            <a href="widget-youtube.view.client.html">YouTube</a>
+            <a ng-click="model.addWidget('YOUTUBE')">YouTube</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Data Table</a>
+            <a>Data Table</a>
         </li>
         <li class="list-group-item">
-            <a href="#">Repeater</a>
+            <a>Repeater</a>
         </li>
     </ul>
 </div>
@@ -51,7 +52,7 @@
     <div class="container">
         <div class="navbar-footer">
             <p class="navbar-text pull-right">
-                <a href="../user/profile.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}" class="navbar-link">
                     <span class="glyphicon glyphicon-user">
                     </span>
                 </a>
