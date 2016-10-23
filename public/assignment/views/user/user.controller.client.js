@@ -59,7 +59,11 @@
         init();
 
         function updateUser(user) {
-            UserService.updateUser(userId, user);
+            if (user.username) {
+                UserService.updateUser(userId, user);
+            } else {
+                vm.error = "Username cannot be empty!";
+            }
         }
     }
 })();

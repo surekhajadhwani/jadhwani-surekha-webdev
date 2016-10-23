@@ -29,8 +29,12 @@
         init();
 
         function addPage(page){
-            PageService.createPage(vm.websiteId,page);
-            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            if (page.name) {
+                PageService.createPage(vm.websiteId,page);
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            } else {
+                vm.error = "Page name cannot be empty!";
+            }
         }
     }
 
@@ -55,8 +59,12 @@
         }
 
         function updatePage(page){
-            PageService.updatePage(vm.pageId,page);
-            $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            if (page.name) {
+                PageService.updatePage(vm.pageId,page);
+                $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page");
+            } else {
+                vm.error = "Page name cannot be empty!";
+            }
         }
     }
 
