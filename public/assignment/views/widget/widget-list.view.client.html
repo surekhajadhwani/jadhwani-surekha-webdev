@@ -40,12 +40,12 @@
             <h6 ng-switch-when="6">{{widget.text}}</h6>
         </div>
         <div ng-switch-when="YOUTUBE" class="youtube-widget embed-responsive embed-responsive-4by3">
-            <iframe width="560" height="315" class="embed-responsive-item"
+            <iframe class="embed-responsive-item" width="{{widget.width}}"
                     ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"
                     frameborder="0" allowfullscreen></iframe>
         </div>
         <div ng-switch-when="IMAGE" class="container">
-            <img ng-src="{{widget.url}}" class="img-responsive" alt="Widget Image">
+            <img ng-src="{{widget.url}}" class="img-responsive" alt="Widget Image" width="{{widget.width}}">
         </div>
         <div ng-switch-when="HTML" ng-bind-html="model.checkSafeHtml(widget.text)">
         </div>
