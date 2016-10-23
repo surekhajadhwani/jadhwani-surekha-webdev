@@ -1,4 +1,3 @@
-<div class="scroll-y">
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -21,7 +20,7 @@
     </div>
 </nav>
 
-<div ng-include="'/assignment/views/widget/widget-'+model.widget.widgetType+'.view.client.html'"></div>
+<div ng-include="'/assignment/views/widget/widget-'+model.widget.widgetType.toLowerCase()+'.view.client.html'"></div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
@@ -35,4 +34,3 @@
         </div>
     </div>
 </nav>
-</div>
