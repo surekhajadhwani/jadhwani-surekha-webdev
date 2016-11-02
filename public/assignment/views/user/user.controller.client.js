@@ -10,19 +10,24 @@
         vm.login = login;
 
         function login(username, password) {
-
             if (!(username && password)) {
                 vm.error = "Please enter username and password.";
                 return;
             }
 
-            var user = UserService.findUserByCredentials(username, password);
-
-            if(user === null) {
-                vm.error = "No such user";
-            } else {
-                $location.url("/user/" + user._id);
-            }
+            UserService
+                .findUserByCredentials(username, password)
+                .success(function (user) {
+                    if(user === '0') {
+                        vm.error = "No such user";
+                    } else {
+                        $location.url("/user/" + user._id);
+                    }
+                })
+                .error(function (err) {
+                    console.log("Error logging in!");
+                    console.log(err);
+                });
         }
     }
 
@@ -35,8 +40,16 @@
                 vm.error = "Invalid Username/Password!";
             } else {
                 if (user.password === user.verifyPassword) {
-                    var userId = UserService.createUser(user);
-                    $location.url("/user/" + userId);
+                    UserService
+                        .createUser(user)
+                        .success(function (user) {
+                            $location.url("/user/" + user._id);
+                        })
+                        .error(function (err) {
+                            console.log("Error creating user");
+                            console.log(err);
+                        })
+
                 } else {
                     vm.error = "Passwords do not match!"
                 }
@@ -44,17 +57,26 @@
         }
     }
 
-    function ProfileController($routeParams, UserService) {
+    function ProfileController($routeParams, $location, UserService) {
         var vm = this;
         vm.updateUser = updateUser;
+        vm.deleteUser = deleteUser;
 
         var userId = parseInt($routeParams['uid']);
 
         function init() {
-            var user = UserService.findUserById(userId);
-            if(user != null) {
-                vm.user = user;
-            }
+            var user =
+            UserService
+                .findUserById(userId)
+                .success(function (user) {
+                    if(user !== '0') {
+                        vm.user = user;
+                    }
+                })
+                .error(function (err) {
+                    console.log("Error finding the user!");
+                    console.log(err);
+                });
         }
         init();
 
@@ -64,6 +86,18 @@
             } else {
                 vm.error = "Username cannot be empty!";
             }
+        }
+
+        function deleteUser(){
+            UserService
+                .deleteUser(userId)
+                .success(function () {
+                    $location.url("/login");
+                })
+                .error(function (err) {
+                    console.log("Error deleting user");
+                    console.log(err);
+                });
         }
     }
 })();

@@ -11,7 +11,15 @@
         vm.userId = parseInt($routeParams['uid']);
 
         function init() {
-            vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
+            WebsiteService
+                .findWebsitesByUser(vm.userId)
+                .success(function (websites) {
+                    vm.websites = websites;
+                })
+                .error(function (err) {
+                    console.log("Error fetching websites");
+                    console.log(err);
+                })
         }
         init();
     }
@@ -23,14 +31,29 @@
         vm.userId = parseInt($routeParams['uid']);
 
         function init() {
-            vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
+            WebsiteService
+                .findWebsitesByUser(vm.userId)
+                .success(function (websites) {
+                    vm.websites = websites;
+                })
+                .error(function (err) {
+                    console.log("Error fetching websites");
+                    console.log(err);
+                })
         }
         init();
 
         function addWebsite(website){
             if (website.name) {
-                WebsiteService.createWebsite(vm.userId, website);
-                $location.url("/user/" + vm.userId + "/website");
+                WebsiteService
+                    .createWebsite(vm.userId, website)
+                    .success(function () {
+                        $location.url("/user/" + vm.userId + "/website");
+                    })
+                    .error(function (err) {
+                        console.log("Error creating website");
+                        console.log(err);
+                    });
             } else {
                 vm.error = "Website name cannot be empty!";
             }
@@ -46,20 +69,51 @@
         vm.userId = parseInt($routeParams['uid']);
 
         function init() {
-            vm.website = WebsiteService.findWebsiteById(vm.websiteId);
-            vm.websites = WebsiteService.findWebsitesByUser(vm.userId);
+            WebsiteService
+                .findWebsiteById(vm.websiteId)
+                .success(function (website) {
+                    vm.website = website;
+                })
+                .error(function (err) {
+                    console.log("Error fetching website with id: " + vm.websiteId);
+                    console.log(err);
+                })
+            WebsiteService
+                .findWebsitesByUser(vm.userId)
+                .success(function (websites) {
+                    vm.websites = websites;
+                })
+                .error(function (err) {
+                    console.log("Error fetching websites");
+                    console.log(err);
+                })
         }
         init();
 
         function deleteWebsite(){
-            WebsiteService.deleteWebsite(vm.websiteId);
-            $location.url("/user/" + vm.userId + "/website");
+            WebsiteService
+                .deleteWebsite(vm.websiteId)
+                .success(function () {
+                    $location.url("/user/" + vm.userId + "/website");
+                })
+                .error(function (err) {
+                    console.log("Error deleting website");
+                    console.log(err)
+                })
         }
 
         function updateWebsite(website) {
             if (website.name) {
-                WebsiteService.updateWebsite(vm.websiteId, website);
-                $location.url("/user/" + vm.userId + "/website");
+                WebsiteService
+                    .updateWebsite(vm.websiteId, website)
+                    .success(function () {
+                        $location.url("/user/" + vm.userId + "/website");
+                    })
+                    .error(function (err) {
+                        console.log("Error updating website");
+                        console.log(err);
+                    })
+
             } else {
                 vm.error = "Website name cannot be empty!";
             }
