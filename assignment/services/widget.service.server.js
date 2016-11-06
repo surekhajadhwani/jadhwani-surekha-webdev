@@ -1,7 +1,19 @@
 module.exports = function(app) {
 
+    var mime = require('mime');  // npm install mime --save
     var multer = require('multer'); // npm install multer --save
-    var upload = multer({ dest: __dirname+'/../../public/assignment/uploads' });
+
+    // var upload = multer({ dest: __dirname+'/../../public/assignment/uploads' });
+    // Saving image with extension
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, __dirname+'/../../public/assignment/uploads')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname + '-' + Date.now() + '.' + mime.extension(file.mimetype));
+        }
+    });
+    var upload = multer({ storage: storage });
 
     var widgets = [
         { "_id": 123, "widgetType": "HEADER", "pageId": 321, "size": 2, "text": "GIZMODO"},
@@ -39,14 +51,17 @@ module.exports = function(app) {
 
         for (var w in widgets) {
             if (widgets[w]._id == widgetId) {
+                widgets[w].name = originalname;
+                widgets[w].width = width;
                 widgets[w].url = "/assignment/uploads/" + filename;
+                res.redirect("/assignment/#/user/" + userId +
+                             "/website/" + websiteId +
+                             "/page/" + pageId +
+                             "/widget/" + widgetId);
+                return;
             }
         }
-
-        res.redirect("/assignment/#/user/" + userId +
-                     "/website/" + websiteId +
-                     "/page/" + pageId +
-                     "/widget/" + widgetId);
+        res.redirect("");
     }
 
     function createWidget(req, res) {
