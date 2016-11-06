@@ -1,5 +1,8 @@
 module.exports = function(app) {
 
+    var multer = require('multer'); // npm install multer --save
+    var upload = multer({ dest: __dirname+'/../../public/assignment/uploads' });
+
     var widgets = [
         { "_id": 123, "widgetType": "HEADER", "pageId": 321, "size": 2, "text": "GIZMODO"},
         { "_id": 234, "widgetType": "HEADER", "pageId": 321, "size": 4, "text": "Lorem ipsum"},
@@ -12,11 +15,39 @@ module.exports = function(app) {
         { "_id": 789, "widgetType": "HTML", "pageId": 321, "text": "<p>Lorem ipsum</p>"}
     ];
 
+    app.post ('/api/upload', upload.single('myFile'), uploadImage);
     app.post('/api/page/:pageId/widget', createWidget);
     app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
     app.get('/api/widget/:widgetId', findWidgetById);
     app.put('/api/widget/:widgetId', updateWidget);
     app.delete('/api/widget/:widgetId', deleteWidget);
+
+    function uploadImage(req, res) {
+        var userId        = req.body.userId;
+        var websiteId     = req.body.websiteId;
+        var pageId        = req.body.pageId;
+        var widgetId      = req.body.widgetId;
+        var width         = req.body.width;
+        var myFile        = req.file;
+
+        var originalname  = myFile.originalname; // file name on user's computer
+        var filename      = myFile.filename;     // new file name in upload folder
+        var path          = myFile.path;         // full path of uploaded file
+        var destination   = myFile.destination;  // folder where file is saved to
+        var size          = myFile.size;
+        var mimetype      = myFile.mimetype;
+
+        for (var w in widgets) {
+            if (widgets[w]._id == widgetId) {
+                widgets[w].url = "/assignment/uploads/" + filename;
+            }
+        }
+
+        res.redirect("/assignment/#/user/" + userId +
+                     "/website/" + websiteId +
+                     "/page/" + pageId +
+                     "/widget/" + widgetId);
+    }
 
     function createWidget(req, res) {
         var widget = req.body;
