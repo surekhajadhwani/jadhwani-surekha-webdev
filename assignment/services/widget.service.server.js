@@ -86,10 +86,11 @@ module.exports = function(app) {
         for (var w in widgets) {
             if (widgets[w]._id === widgetId) {
                 widgets[w] = widget;
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 
     function deleteWidget(req, res) {
@@ -97,9 +98,10 @@ module.exports = function(app) {
         for(var w in widgets) {
             if(widgets[w]._id === widgetId) {
                 widgets.splice(parseInt(w), 1);
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 };

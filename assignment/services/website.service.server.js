@@ -53,10 +53,11 @@ module.exports = function(app) {
         for (var w in websites) {
             if (websites[w]._id === websiteId) {
                 websites[w] = website;
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 
     function deleteWebsite(req, res) {
@@ -64,9 +65,10 @@ module.exports = function(app) {
         for(var w in websites) {
             if(websites[w]._id === websiteId) {
                 websites.splice(parseInt(w), 1);
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 };

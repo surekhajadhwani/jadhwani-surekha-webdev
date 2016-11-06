@@ -49,10 +49,11 @@ module.exports = function(app) {
         for (var p in pages) {
             if (pages[p]._id === pageId) {
                 pages[p] = page;
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 
     function deletePage(req, res) {
@@ -60,9 +61,10 @@ module.exports = function(app) {
         for(var p in pages) {
             if(pages[p]._id === pageId) {
                 pages.splice(parseInt(p), 1);
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0')
     }
 };

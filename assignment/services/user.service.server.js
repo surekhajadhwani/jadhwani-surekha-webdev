@@ -74,10 +74,11 @@ module.exports = function(app) {
         for(var u in users) {
             if(users[u]._id === userId) {
                 users[u] = user;
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 
     function deleteUser(req, res) {
@@ -85,9 +86,10 @@ module.exports = function(app) {
         for(var u in users) {
             if(users[u]._id === userId) {
                 users.splice(parseInt(u), 1);
-                break;
+                res.sendStatus(200);
+                return;
             }
         }
-        res.send(200);
+        res.send('0');
     }
 };
