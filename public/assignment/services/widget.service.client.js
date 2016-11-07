@@ -7,11 +7,12 @@
 
 
         var api = {
-            createWidget : createWidget,
-            findWidgetsByPageId : findWidgetsByPageId,
-            findWidgetById : findWidgetById,
-            updateWidget : updateWidget,
-            deleteWidget : deleteWidget
+            createWidget: createWidget,
+            findWidgetsByPageId: findWidgetsByPageId,
+            findWidgetById: findWidgetById,
+            updateWidget: updateWidget,
+            deleteWidget: deleteWidget,
+            sortWidgets: sortWidgets
         };
         return api;
 
@@ -38,6 +39,11 @@
         function deleteWidget(widgetId) {
             var url = "/api/widget/" + widgetId;
             return $http.delete(url);
+        }
+
+        function sortWidgets(initial, final, pageId) {
+            var url = "/api/page/" + pageId + "/widget?initial=" + initial + "&final=" + final;
+            return $http.put(url);
         }
     }
 })();

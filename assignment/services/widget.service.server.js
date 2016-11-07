@@ -33,6 +33,7 @@ module.exports = function(app) {
     app.get('/api/widget/:widgetId', findWidgetById);
     app.put('/api/widget/:widgetId', updateWidget);
     app.delete('/api/widget/:widgetId', deleteWidget);
+    app.put('/api/page/:pageId/widget', sortWidgets);
 
     function uploadImage(req, res) {
         var userId        = req.body.userId;
@@ -118,5 +119,29 @@ module.exports = function(app) {
             }
         }
         res.send('0');
+    }
+
+    function sortWidgets(req, res) {
+        var pageId = parseInt(req.params.pageId);
+        var initial = parseInt(req.query.initial);
+        var final = parseInt(req.query.final);
+
+        var startIndex = 0;
+        var endIndex = 0;
+        var num = 0;
+        for (var w in widgets) {
+            if (widgets[w].pageId === pageId) {
+                if (num === initial) {
+                    startIndex = parseInt(w);
+                }
+                if (num === final) {
+                    endIndex = parseInt(w);
+                }
+                num++;
+            }
+        }
+        widgets.splice(endIndex, 0, widgets.splice(startIndex, 1)[0]);
+
+        res.sendStatus(200);
     }
 };
