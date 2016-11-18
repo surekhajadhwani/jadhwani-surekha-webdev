@@ -20,8 +20,8 @@
     </div>
 </nav>
 
-<div ng-if='model.widget.widgetType'>
-    <div ng-include="'/assignment/views/widget/widget-'+model.widget.widgetType.toLowerCase()+'.view.client.html'">
+<div ng-if='model.widget.type'>
+    <div ng-include="'/assignment/views/widget/widget-'+model.widget.type.toLowerCase()+'.view.client.html'">
     </div>
 </div>
 
