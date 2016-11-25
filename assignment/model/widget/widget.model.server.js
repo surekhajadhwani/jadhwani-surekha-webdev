@@ -1,9 +1,11 @@
 module.exports = function () {
+    var models = {}
     var mongoose = require("mongoose");
     var WidgetSchema = require("./widget.schema.server")();
     var WidgetModel = mongoose.model("WidgetModel", WidgetSchema);
 
     var api = {
+        setModels: setModels,
         createWidget: createWidget,
         findAllWidgetsForPage: findAllWidgetsForPage,
         findWidgetById: findWidgetById,
@@ -13,15 +15,37 @@ module.exports = function () {
     };
     return api;
 
+    function setModels(_models) {
+        models = _models;
+    }
+
     function createWidget(pageId, widget) {
         widget._page = pageId;
-        return WidgetModel.create(widget);
+        return new Promise(function (success, err) {
+            WidgetModel
+                .create(widget)
+                .then(function (newWidget) {
+                    models.pageModel
+                        .findPageById(pageId)
+                        .then(function (page) {
+                            newWidget._page = page._id;
+                            newWidget.save();
+                            page.widgets.push(newWidget);
+                            page.save();
+                            success(newWidget);
+                        }, function (error) {
+                            err(error);
+                        });
+                },
+                    function (error) {
+                        err(error);
+                    }
+                )
+        });
     }
 
     function findAllWidgetsForPage(pageId) {
-        return WidgetModel.find({
-            _page: pageId
-        });
+        return models.pageModel.findAllWidgetsForPage(pageId);
     }
 
     function findWidgetById(widgetId) {

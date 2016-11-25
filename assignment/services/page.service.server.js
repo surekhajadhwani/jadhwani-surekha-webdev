@@ -28,8 +28,8 @@ module.exports = function(app, models) {
             .pageModel
             .findAllPagesForWebsite(websiteId)
             .then(
-                function (pages) {
-                    res.send(pages);
+                function (website) {
+                    res.send(website.pages);
                 },
                 function(err) {
                     res.statusCode(400).send(err);

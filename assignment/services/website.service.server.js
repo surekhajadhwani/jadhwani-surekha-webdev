@@ -28,8 +28,8 @@ module.exports = function(app, models) {
             .websiteModel
             .findAllWebsitesForUser(userId)
             .then(
-                function (websites) {
-                    res.send(websites);
+                function (user) {
+                    res.send(user.websites);
                 },
                 function(err) {
                     res.statusCode(400).send(err);

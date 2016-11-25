@@ -82,8 +82,8 @@ module.exports = function(app, models) {
             .widgetModel
             .findAllWidgetsForPage(pageId)
             .then(
-                function (widgets) {
-                    res.send(widgets);
+                function (page) {
+                    res.send(page.widgets);
                 },
                 function(err) {
                     res.statusCode(400).send(err);
