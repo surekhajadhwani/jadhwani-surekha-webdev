@@ -65,3 +65,17 @@ body {
 a:hover {
     text-decoration: none;
 }
+
+.youtube-widget {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    margin-right: 30px;
+}
+
+.youtube-widget iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}

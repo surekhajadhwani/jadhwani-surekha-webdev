@@ -63,6 +63,9 @@ module.exports = function(app, models) {
     function createWidget(req, res) {
         var widget = req.body;
         var pageId = req.params.pageId;
+        if (widget.type === "YOUTUBE" && !widget.width) {
+            widget.width = "100%";
+        }
         models
             .widgetModel
             .createWidget(pageId, widget)
