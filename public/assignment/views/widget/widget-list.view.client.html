@@ -40,7 +40,7 @@
             <h6 ng-switch-when="6">{{widget.text}}</h6>
         </div>
         <div ng-switch-when="YOUTUBE" class="youtube-widget">
-            <iframe width="{{widget.width}}"
+            <iframe width="{{widget.width}}" height="{{widget.width}}"
                     ng-src="{{model.checkSafeYouTubeUrl(widget.url)}}"
                     frameborder="0" allowfullscreen></iframe>
         </div>
