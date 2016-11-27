@@ -45,19 +45,26 @@ module.exports = function(app, models) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        for (var w in widgets) {
-            if (widgets[w]._id == widgetId) {
-                widgets[w].name = originalname;
-                widgets[w].width = width;
-                widgets[w].url = "/assignment/uploads/" + filename;
+        var url = "/assignment/uploads/" + filename;
+
+        var widget = {};
+        widget._id = widgetId;
+        widget._name = originalname;
+        widget.width = width;
+        widget.url = url;
+
+        models
+            .widgetModel
+            .updateWidget(widgetId, widget)
+            .then(function (status) {
                 res.redirect("/assignment/#/user/" + userId +
-                             "/website/" + websiteId +
-                             "/page/" + pageId +
-                             "/widget/" + widgetId);
-                return;
-            }
-        }
-        res.redirect("");
+                    "/website/" + websiteId +
+                    "/page/" + pageId +
+                    "/widget/" + widgetId);
+            },
+            function (err) {
+                res.sendStatus(400).send(err);
+            });
     }
 
     function createWidget(req, res) {
@@ -141,26 +148,18 @@ module.exports = function(app, models) {
     }
 
     function sortWidgets(req, res) {
-    /*    var pageId = parseInt(req.params.pageId);
+        var pageId = req.params.pageId;
         var initial = parseInt(req.query.initial);
         var final = parseInt(req.query.final);
 
-        var startIndex = 0;
-        var endIndex = 0;
-        var num = 0;
-        for (var w in widgets) {
-            if (widgets[w].pageId === pageId) {
-                if (num === initial) {
-                    startIndex = parseInt(w);
-                }
-                if (num === final) {
-                    endIndex = parseInt(w);
-                }
-                num++;
-            }
-        }
-        widgets.splice(endIndex, 0, widgets.splice(startIndex, 1)[0]);
-
-        res.sendStatus(200);*/
+        models
+            .widgetModel
+            .reorderWidget(pageId, initial, final)
+            .then(function (status) {
+                res.sendStatus(200);
+            },
+            function (err) {
+               res.sendStatus(400).send(err);
+            });
     }
 };

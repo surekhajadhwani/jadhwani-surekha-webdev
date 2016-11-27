@@ -70,6 +70,17 @@ module.exports = function () {
     }
 
     function reorderWidget(pageId, start, end) {
-
+        return models.pageModel
+                .findPageById(pageId)
+                .then(
+                    function(page){
+                        var widget = page.widgets.splice(start,1)[0];
+                        page.save();
+                        page.widgets.splice(end, 0, widget);
+                        return page.save();
+                    },
+                    function(err){
+                        console.log(err);
+                    });
     }
 };

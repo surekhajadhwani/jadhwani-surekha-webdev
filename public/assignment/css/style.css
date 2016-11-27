@@ -31,7 +31,7 @@ body {
     color: #fff;
 }
 
-.glyphicon-cog, .glyphicon-menu-hamburger {
+.glyphicon-cog, .glyphicon-menu-hamburger, .glyphicon-search {
     color: #337ab7;
 }
 
@@ -77,4 +77,8 @@ a:hover {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.bg-white{
+    background:#ffffff !important;
 }
