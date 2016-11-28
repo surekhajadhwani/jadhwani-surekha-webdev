@@ -116,19 +116,20 @@ module.exports = function () {
                         WebsiteModel
                             .remove({ _id: websiteId })
                             .then(function (status) {
-                                models
-                                    .pageModel
-                                    .deletePagesFromWebsite(websiteId)
-                                    .then(function (status) {
-                                        success(200);
-                                    }, function (error) {
-                                        err(error);
-                                    });
+                                success(200);
                             }, function (error) {
                                 err(error);
                             });
-                        success(200);
+                        models
+                            .pageModel
+                            .deletePagesFromWebsite(websiteId)
+                            .then(function (status) {
+                                success(200);
+                            }, function (error) {
+                                err(error);
+                            });
                     }
+                    success(200);
                 }, function (error) {
                     err(error);
                 })

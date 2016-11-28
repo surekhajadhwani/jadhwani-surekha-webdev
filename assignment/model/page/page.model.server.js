@@ -117,16 +117,17 @@ module.exports = function () {
                             .remove({ _id: pageId })
                             .exec()
                             .then(function (status) {
-                                models
-                                    .widgetModel
-                                    .deleteWidgetsFromPage(pageId)
-                                    .then(function (status) {
-                                        success(200);
-                                    }, function (error) {
-                                        err(error);
-                                    })
+                                success(200);
                             }, function (error) {
                                 console.log(error);
+                            });
+                        models
+                            .widgetModel
+                            .deleteWidgetsFromPage(pageId)
+                            .then(function (status) {
+                                success(200);
+                            }, function (error) {
+                                err(error);
                             });
                     }
                     success(200);
