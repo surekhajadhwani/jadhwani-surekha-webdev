@@ -11,7 +11,9 @@ module.exports = function () {
         findWebsiteById: findWebsiteById,
         findAllPagesForWebsite: findAllPagesForWebsite,
         updateWebsite: updateWebsite,
-        deleteWebsite: deleteWebsite
+        deleteWebsite: deleteWebsite,
+        deleteWebsitesFromUser: deleteWebsitesFromUser,
+        deletePageReference: deletePageReference
     };
     return api;
 
@@ -71,8 +73,75 @@ module.exports = function () {
     }
 
     function deleteWebsite(websiteId) {
-        return WebsiteModel.remove({
-            _id: websiteId
+        return new Promise(function (success, err) {
+            WebsiteModel
+                .findById(websiteId)
+                .then(function (website) {
+                        var userId = website._user;
+                        WebsiteModel
+                            .remove({ _id: websiteId })
+                            .then(function (status) {
+                                models
+                                    .userModel
+                                    .deleteWebsiteReference(userId, websiteId)
+                                    .then(function (user) {
+                                        models
+                                            .pageModel
+                                            .deletePagesFromWebsite(websiteId)
+                                            .then(function (status) {
+                                                success(200);
+                                            }, function (error) {
+                                                err(error);
+                                            });
+                                    }, function (error) {
+                                        err(error);
+                                    });
+                            }, function (error) {
+                                err(error);
+                            });
+                    },
+                    function (error) {
+                        err(error);
+                    });
         });
+    }
+
+    function deleteWebsitesFromUser(userId) {
+        return new Promise(function (success, err) {
+            WebsiteModel
+                .find({ _user: userId })
+                .then(function (websites) {
+                    for (var i = 0; i < websites.length; i++) {
+                        var websiteId = websites[i]._id;
+                        WebsiteModel
+                            .remove({ _id: websiteId })
+                            .then(function (status) {
+                                models
+                                    .pageModel
+                                    .deletePagesFromWebsite(websiteId)
+                                    .then(function (status) {
+                                        success(200);
+                                    }, function (error) {
+                                        err(error);
+                                    });
+                            }, function (error) {
+                                err(error);
+                            });
+                        success(200);
+                    }
+                }, function (error) {
+                    err(error);
+                })
+        });
+    }
+
+    function deletePageReference(websiteId, pageId) {
+        return WebsiteModel.update(
+            {
+                _id: websiteId
+            },
+            {
+                $pull: {pages: pageId}
+            });
     }
 };

@@ -11,7 +11,9 @@ module.exports = function () {
         findPageById: findPageById,
         findAllWidgetsForPage: findAllWidgetsForPage,
         updatePage: updatePage,
-        deletePage: deletePage
+        deletePage: deletePage,
+        deletePagesFromWebsite: deletePagesFromWebsite,
+        deleteWidgetReference: deleteWidgetReference
     };
     return api;
 
@@ -71,8 +73,77 @@ module.exports = function () {
     }
 
     function deletePage(pageId) {
-        return PageModel.remove({
-            _id: pageId
+        return new Promise(function (success, err) {
+            PageModel
+                .findById(pageId)
+                .then(function (page) {
+                        var websiteId = page._website;
+                        PageModel
+                            .remove({ _id: pageId })
+                            .then(function (status) {
+                                models
+                                    .websiteModel
+                                    .deletePageReference(websiteId, pageId)
+                                    .then(function (website) {
+                                        models
+                                            .widgetModel
+                                            .deleteWidgetsFromPage(pageId)
+                                            .then(function (status) {
+                                                success(200);
+                                            }, function (error) {
+                                                err(error);
+                                            });
+                                    }, function (error) {
+                                        err(error);
+                                    });
+                            }, function (error) {
+                                err(error);
+                            });
+                    },
+                    function (error) {
+                        err(error);
+                    });
         });
     }
+
+    function deletePagesFromWebsite(websiteId) {
+        return new Promise(function (success, err) {
+            PageModel
+                .find({ _website: websiteId })
+                .then(function (pages) {
+                    for (var i = 0; i < pages.length; i++) {
+                        var pageId = pages[i]._id;
+                        PageModel
+                            .remove({ _id: pageId })
+                            .exec()
+                            .then(function (status) {
+                                models
+                                    .widgetModel
+                                    .deleteWidgetsFromPage(pageId)
+                                    .then(function (status) {
+                                        success(200);
+                                    }, function (error) {
+                                        err(error);
+                                    })
+                            }, function (error) {
+                                console.log(error);
+                            });
+                    }
+                    success(200);
+                }, function (error) {
+                    err(error);
+                })
+        });
+    }
+
+    function deleteWidgetReference(pageId, widgetId) {
+        return PageModel.update(
+            {
+                _id: pageId
+            },
+            {
+                $pull: {widgets: widgetId}
+            });
+    }
+
 };

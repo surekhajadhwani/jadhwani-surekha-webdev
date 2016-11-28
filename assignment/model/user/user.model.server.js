@@ -12,7 +12,8 @@ module.exports = function () {
         findUserByCredentials: findUserByCredentials,
         findWebsitesForUser: findWebsitesForUser,
         updateUser: updateUser,
-        deleteUser: deleteUser
+        deleteUser: deleteUser,
+        deleteWebsiteReference: deleteWebsiteReference
     };
     return api;
 
@@ -60,8 +61,38 @@ module.exports = function () {
     }
 
     function deleteUser(userId) {
-        return UserModel.remove({
-            _id: userId
+        return new Promise(function (success, err) {
+            UserModel
+                .findById(userId)
+                .then(function (user) {
+                        UserModel
+                            .remove({ _id: userId })
+                            .then(function (status) {
+                                models
+                                    .websiteModel
+                                    .deleteWebsitesFromUser(userId)
+                                    .then(function (status) {
+                                        success(200);
+                                    }, function (error) {
+                                        err(error);
+                                    });
+                            }, function (error) {
+                                err(error);
+                            });
+                    },
+                    function (error) {
+                        err(error);
+                    });
         });
+    }
+
+    function deleteWebsiteReference(userId, websiteId) {
+        return UserModel.update(
+            {
+                _id: userId
+            },
+            {
+                $pull: {websites: websiteId}
+            });
     }
 };
