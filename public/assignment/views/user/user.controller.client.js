@@ -9,14 +9,14 @@
         var vm = this;
         vm.login = login;
 
-        function login(username, password) {
-            if (!(username && password)) {
+        function login(user) {
+            if (!(user.username && user.password)) {
                 vm.error = "Please enter username and password.";
                 return;
             }
 
             UserService
-                .findUserByCredentials(username, password)
+                .login(user)
                 .success(function (user) {
                     if(user === '0') {
                         vm.error = "No such user";
@@ -25,6 +25,9 @@
                     }
                 })
                 .error(function (err) {
+                    if (err === "Unauthorized") {
+                        vm.error = "No such user";
+                    }
                     console.log("Error logging in!");
                     console.log(err);
                 });
@@ -41,7 +44,7 @@
             } else {
                 if (user.password === user.verifyPassword) {
                     UserService
-                        .createUser(user)
+                        .register(user)
                         .success(function (user) {
                             $location.url("/user/" + user._id);
                         })
@@ -61,6 +64,7 @@
         var vm = this;
         vm.updateUser = updateUser;
         vm.deleteUser = deleteUser;
+        vm.logout = logout;
 
         var userId = $routeParams['uid'];
 
@@ -96,6 +100,18 @@
                 })
                 .error(function (err) {
                     console.log("Error deleting user");
+                    console.log(err);
+                });
+        }
+        
+        function logout() {
+            UserService
+                .logout()
+                .success(function () {
+                   $location.url("/login");
+                })
+                .error(function (err) {
+                    console.log("Error logging out user");
                     console.log(err);
                 });
         }
