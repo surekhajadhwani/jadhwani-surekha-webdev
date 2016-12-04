@@ -1,10 +1,18 @@
 module.exports = function() {
 
-    var connectionString = 'mongodb://heroku_0v1rk2bt:l3t32hhnf85788sr9k54rmuu89@ds033116.mlab.com:33116/heroku_0v1rk2bt';
+    var connectionString = "mongodb://localhost/cs5610-assignment";
+
+    if(process.env.HEROKU_MONGODB_DB_PASSWORD) {
+        connectionString = "mongodb://" +
+            process.env.HEROKU_MONGODB_DB_USERNAME + ":" +
+            process.env.HEROKU_MONGODB_DB_PASSWORD + "@" +
+            process.env.HEROKU_MONGODB_DB_HOST + ':' +
+            process.env.HEROKU_MONGODB_DB_PORT + '/' +
+            process.env.HEROKU_APP_NAME;
+    }
 
     var mongoose = require("mongoose");
     mongoose.connect(connectionString);
-    // mongoose.connect("mongodb://localhost/cs5610-assignment");
 
     var userModel = require("./user/user.model.server")();
     var websiteModel = require("./website/website.model.server")();
