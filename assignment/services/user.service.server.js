@@ -1,9 +1,18 @@
 module.exports = function (app, models) {
 
+    var bcrypt = require("bcrypt-nodejs");
     var passport      = require('passport');
     var LocalStrategy = require('passport-local').Strategy;
+    var FacebookStrategy = require('passport-facebook').Strategy;
+
+    var facebookConfig = {
+        clientID     : process.env.FACEBOOK_CLIENT_ID,
+        clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    };
 
     passport.use(new LocalStrategy(localStrategy));
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
@@ -17,16 +26,25 @@ module.exports = function (app, models) {
     app.put('/api/user/:userId', updateUser);
     app.delete('/api/user/:userId', deleteUser);
 
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/assignment/#/user',
+            failureRedirect: '/assignment/#/login'
+        }));
+
+
     function localStrategy(username, password, done) {
         models
             .userModel
-            .findUserByCredentials(username, password)
+            .findUserByUsername(username)
             .then(
                 function (user) {
-                    if (!user) {
+                    if(user && bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    } else {
                         return done(null, false);
                     }
-                    return done(null, user);
                 },
                 function (error) {
                     return done(error);
@@ -68,11 +86,12 @@ module.exports = function (app, models) {
 
     function register (req, res) {
         var user = req.body;
+        user.password = bcrypt.hashSync(user.password);
         models
             .userModel
             .createUser(user)
             .then(
-                function(user){
+                function (user){
                     if(user){
                         req.login(user, function(err) {
                             if(err) {
@@ -82,6 +101,9 @@ module.exports = function (app, models) {
                             }
                         });
                     }
+                },
+                function (err) {
+                    res.status(400).send(err);
                 }
             );
     }
@@ -108,7 +130,7 @@ module.exports = function (app, models) {
         } else if (query.username) {
             findUserByUsername(req, res);
         } else {
-            res.send('0');
+            res.json(req.user);
         }
     }
 
@@ -196,6 +218,56 @@ module.exports = function (app, models) {
                 },
                 function (err) {
                     res.sendStatus(400).send(err);
+                }
+            );
+    }
+
+    function facebookStrategy(token, refreshToken, profile, done) {
+        models
+            .userModel
+            .findUserByFacebookId(profile.id)
+            .then(
+                function (user) {
+                    if (user) {
+                        return done(null, user);
+                    } else {
+                        var names = profile.displayName.split(" ");
+                        var newFacebookUser = {
+                            lastName:  names[1],
+                            firstName: names[0],
+                            email:     profile.emails ? profile.emails[0].value : "",
+                            facebook: {
+                                id:    profile.id,
+                                token: token
+                            }
+                        };
+                        return models
+                            .userModel
+                            .createUser(newFacebookUser)
+                            .then(
+                                function (user) {
+                                    return done(null, user);
+                                },
+                                function (err) {
+                                    return done(err);
+                                }
+                            )
+                    }
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            )
+            .then(
+                function (user) {
+                    return done(null, user);
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
                 }
             );
     }

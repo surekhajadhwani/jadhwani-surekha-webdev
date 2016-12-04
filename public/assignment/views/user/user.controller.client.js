@@ -66,15 +66,14 @@
         vm.deleteUser = deleteUser;
         vm.logout = logout;
 
-        var userId = $routeParams['uid'];
-
         function init() {
             var user =
             UserService
-                .findUserById(userId)
+                .findLoggedInUser()
                 .success(function (user) {
                     if(user !== '0') {
                         vm.user = user;
+                        vm.userId = user._id;
                     }
                 })
                 .error(function (err) {
@@ -86,15 +85,15 @@
 
         function updateUser(user) {
             if (user.username) {
-                UserService.updateUser(userId, user);
+                UserService.updateUser(vm.userId, user);
             } else {
                 vm.error = "Username cannot be empty!";
             }
         }
 
-        function deleteUser(){
+        function deleteUser() {
             UserService
-                .deleteUser(userId)
+                .deleteUser(vm.userId)
                 .success(function () {
                     $location.url("/login");
                 })

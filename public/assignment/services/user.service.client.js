@@ -11,6 +11,7 @@
             checkLoggedin: checkLoggedin,
             register: register,
             // createUser : createUser,
+            findLoggedInUser : findLoggedInUser,
             findUserById : findUserById,
             findUserByUsername : findUserByUsername,
             findUserByCredentials : findUserByCredentials,
@@ -44,6 +45,11 @@
             var url = "/api/user";
             return $http.post(url, user);
         }*/
+
+        function findLoggedInUser() {
+            var url = "/api/user";
+            return $http.get(url);
+        }
 
         function findUserById(userId) {
             var url = "/api/user/"+userId;
