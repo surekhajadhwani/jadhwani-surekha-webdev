@@ -7,6 +7,10 @@ module.exports = function () {
             id:    String,
             token: String
         },
+        google:   {
+            id:    String,
+            token: String
+        },
         firstName: String,
         lastName: String,
         email: String,

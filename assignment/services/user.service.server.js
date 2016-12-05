@@ -3,6 +3,7 @@ module.exports = function (app, models) {
     var bcrypt = require("bcrypt-nodejs");
     var passport      = require('passport');
     var LocalStrategy = require('passport-local').Strategy;
+    var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
     var FacebookStrategy = require('passport-facebook').Strategy;
 
     var facebookConfig = {
@@ -11,8 +12,15 @@ module.exports = function (app, models) {
         callbackURL  : process.env.FACEBOOK_CALLBACK_URL
     };
 
+    var googleConfig = {
+        clientID        : process.env.GOOGLE_CLIENT_ID,
+        clientSecret    : process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL     : process.env.GOOGLE_CALLBACK_URL
+    };
+
     passport.use(new LocalStrategy(localStrategy));
     passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+    passport.use(new GoogleStrategy(googleConfig, googleStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
@@ -29,6 +37,13 @@ module.exports = function (app, models) {
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
+            successRedirect: '/assignment/#/user',
+            failureRedirect: '/assignment/#/login'
+        }));
+
+    app.get   ('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get   ('/auth/google/callback',
+        passport.authenticate('google', {
             successRedirect: '/assignment/#/user',
             failureRedirect: '/assignment/#/login'
         }));
@@ -265,6 +280,55 @@ module.exports = function (app, models) {
                     return done(null, user);
                 },
                 function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            );
+    }
+
+    function googleStrategy(token, refreshToken, profile, done) {
+        models
+            .userModel
+            .findUserByGoogleId(profile.id)
+            .then(
+                function (user) {
+                    if (user) {
+                        return done(null, user);
+                    } else {
+                        var newGoogleUser = {
+                            lastName: profile.name.familyName,
+                            firstName: profile.name.givenName,
+                            email: profile.emails[0].value,
+                            google: {
+                                id:          profile.id,
+                                token:       token
+                            }
+                        };
+                        return models
+                            .userModel
+                            .createUser(newGoogleUser)
+                            .then(
+                                function (user) {
+                                    return done(null, user);
+                                },
+                                function (err) {
+                                    return done(err);
+                                }
+                            );
+                    }
+                },
+                function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            )
+            .then(
+                function(user){
+                    return done(null, user);
+                },
+                function(err){
                     if (err) {
                         return done(err);
                     }

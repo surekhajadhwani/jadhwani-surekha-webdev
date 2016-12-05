@@ -11,6 +11,7 @@ module.exports = function () {
         findUserByUsername: findUserByUsername,
         findUserByCredentials: findUserByCredentials,
         findUserByFacebookId: findUserByFacebookId,
+        findUserByGoogleId: findUserByGoogleId,
         findWebsitesForUser: findWebsitesForUser,
         updateUser: updateUser,
         deleteUser: deleteUser,
@@ -45,6 +46,10 @@ module.exports = function () {
 
     function findUserByFacebookId(facebookId) {
         return UserModel.findOne({'facebook.id': facebookId});
+    }
+
+    function findUserByGoogleId(googleId) {
+        return UserModel.findOne({'google.id': googleId});
     }
 
     function findWebsitesForUser(userId) {
