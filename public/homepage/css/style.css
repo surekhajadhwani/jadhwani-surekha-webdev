@@ -1947,7 +1947,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   border-width: 0;
 }
 .navbar-brand {
-  font-size: 24px;
+  font-size: 19px;
   line-height: 1.042;
   font-weight: 700;
 }
@@ -4782,4 +4782,6 @@ footer p {
   color: #18bc9c !important;
 }
 
-
+.left {
+  text-align: left !important;
+}
