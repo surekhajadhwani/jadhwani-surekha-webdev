@@ -10,7 +10,7 @@
         vm.login = login;
 
         function login(user) {
-            if (!(user.username && user.password)) {
+            if (!(user && user.username && user.password)) {
                 vm.error = "Please enter username and password.";
                 return;
             }
