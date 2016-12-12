@@ -94,6 +94,7 @@
 
         function updateUser(user) {
             if (user.username && user.username != "") {
+                vm.error = null;
                 UserService.updateUser(vm.userId, user);
             } else {
                 vm.error = "There were errors in the form, please fix them";
