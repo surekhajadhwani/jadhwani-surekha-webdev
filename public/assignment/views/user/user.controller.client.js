@@ -10,7 +10,11 @@
         vm.login = login;
 
         function login(user) {
-            if (!(user && user.username && user.password) && user.username != "" && user.password != "") {
+            if (!(user && user.username && user.password)) {
+                vm.error = "There were errors in the form, please fix them";
+                return;
+            }
+            if (user.username == "" || user.password == "") {
                 vm.error = "There were errors in the form, please fix them";
                 return;
             }
@@ -39,8 +43,12 @@
         vm.register = register;
 
         function register(user) {
-            if (!(user && user.username && user.password) && user.username != "" && user.password != "") {
+            if (!(user && user.username && user.password)) {
                 vm.error = "There were errors in the form, please fix them";
+                return;
+            } else if (user.username == "" || user.password == "") {
+                vm.error = "There were errors in the form, please fix them";
+                return;
             } else {
                 if (user.password === user.verifyPassword) {
                     UserService
@@ -54,6 +62,7 @@
                         })
 
                 } else {
+                    vm.isMatch = false;
                     vm.error = "There were errors in the form, please fix them"
                 }
             }
@@ -84,7 +93,7 @@
         init();
 
         function updateUser(user) {
-            if (user.username) {
+            if (user.username && user.username != "") {
                 UserService.updateUser(vm.userId, user);
             } else {
                 vm.error = "There were errors in the form, please fix them";
