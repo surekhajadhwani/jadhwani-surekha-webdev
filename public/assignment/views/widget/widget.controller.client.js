@@ -85,15 +85,20 @@
         init();
         
         function updateWidget(widget) {
-            WidgetService
-                .updateWidget(vm.widgetId, widget)
-                .success(function () {
-                    $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
-                })
-                .error(function (err) {
-                    console.log("Error updating widget");
-                    console.log(err);
-                });
+            if(widget.name) {
+                WidgetService
+                    .updateWidget(vm.widgetId, widget)
+                    .success(function () {
+                        $location.url("/user/" + vm.userId + "/website/" + vm.websiteId + "/page/" + vm.pageId + "/widget");
+                    })
+                    .error(function (err) {
+                        console.log("Error updating widget");
+                        console.log(err);
+                    });
+            } else {
+                vm.error = "Widget Name is required"
+            }
+
         }
 
         function deleteWidget() {

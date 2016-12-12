@@ -10,8 +10,8 @@
         vm.login = login;
 
         function login(user) {
-            if (!(user && user.username && user.password)) {
-                vm.error = "Please enter username and password.";
+            if (!(user && user.username && user.password) && user.username != "" && user.password != "") {
+                vm.error = "There were errors in the form, please fix them";
                 return;
             }
 
@@ -39,8 +39,8 @@
         vm.register = register;
 
         function register(user) {
-            if (!(user && user.username && user.password)) {
-                vm.error = "Invalid Username/Password!";
+            if (!(user && user.username && user.password) && user.username != "" && user.password != "") {
+                vm.error = "There were errors in the form, please fix them";
             } else {
                 if (user.password === user.verifyPassword) {
                     UserService
@@ -54,7 +54,7 @@
                         })
 
                 } else {
-                    vm.error = "Passwords do not match!"
+                    vm.error = "There were errors in the form, please fix them"
                 }
             }
         }
@@ -87,7 +87,7 @@
             if (user.username) {
                 UserService.updateUser(vm.userId, user);
             } else {
-                vm.error = "Username cannot be empty!";
+                vm.error = "There were errors in the form, please fix them";
             }
         }
 

@@ -27,10 +27,11 @@
                     New Website
                 </a>
                 <p class="navbar-text pull-right">
-                    <a ng-click="model.addWebsite(model.website)" class="navbar-link">
+                    <button form="newWebsiteForm" type="submit"
+                            class="navbar-link btn update-btn" ng-click="model.addWebsite(model.website)">
                         <span class="glyphicon glyphicon-ok">
                         </span>
-                    </a>
+                    </button>
                 </p>
             </div>
         </div>
@@ -56,10 +57,14 @@
     <div ng-show="model.error" class="alert alert-danger" role="alert">
         {{model.error}}
     </div>
-    <form>
+    <form name="newWebsiteForm" id="newWebsiteForm" novalidate>
         <div class="form-group">
             <label for="name">Name</label>
-            <input ng-model="model.website.name" type="text" class="form-control" id="name" placeholder="Name"/>
+            <input ng-model="model.website.name" type="text" class="form-control" id="name" placeholder="Name" name="name" required/>
+        </div>
+        <div ng-show="newWebsiteForm.name.$invalid && newWebsiteForm.$submitted"
+             class="error">
+            Website Name is required
         </div>
         <div class="form-group">
             <label for="description">Description</label>

@@ -56,7 +56,7 @@
                         console.log(err);
                     })
             } else {
-                vm.error = "Page name cannot be empty!";
+                vm.error = "There were errors in the form, please fix them";
             }
         }
     }
@@ -116,7 +116,7 @@
                         console.log(err);
                     })
             } else {
-                vm.error = "Page name cannot be empty!";
+                vm.error = "There were errors in the form, please fix them";
             }
         }
     }

@@ -55,7 +55,7 @@
                         console.log(err);
                     });
             } else {
-                vm.error = "Website name cannot be empty!";
+                vm.error = "There were errors in the form, please fix them";
             }
         }
     }
@@ -115,7 +115,7 @@
                     })
 
             } else {
-                vm.error = "Website name cannot be empty!";
+                vm.error = "There were errors in the form, please fix them";
             }
         }
     }

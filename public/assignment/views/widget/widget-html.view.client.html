@@ -1,8 +1,11 @@
+<div ng-show="model.error" class="alert alert-danger" role="alert">
+    {{model.error}}
+</div>
 <div class="container">
     <form>
         <div class="form-group">
             <label for="name">Name</label>
-            <input ng-model="model.widget.name" type="text" class="form-control" id="name" placeholder="Name"/>
+            <input ng-model="model.widget.name" type="text" class="form-control" id="name" placeholder="Name" name="name" required/>
         </div>
         <div ng-model="model.widget.text"
              text-angular
